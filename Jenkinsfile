@@ -3,6 +3,12 @@
 //import net.sf.json.JSONArray;
 //import net.sf.json.JSONObject;
 
+slackSend(
+  message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
+  channel: '#general',
+  tokenCredentialId: 'slack_jenkins_ci_integration_token'
+)
+
 properties(
   [buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '30', numToKeepStr: '50')), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], pipelineTriggers([])]
 )
