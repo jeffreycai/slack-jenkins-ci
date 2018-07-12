@@ -30,7 +30,7 @@ node {
 //    attachment.put('color','#ff0000');
 
 //    attachments.add(attachment);
-    slackSend(color: '#00FF00', channel: '#general', text: 'yeah')
+    slackSend(color: '#00FF00', channel: '#general', message: 'yeah')
 }
 
 
