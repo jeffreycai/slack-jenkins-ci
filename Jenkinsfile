@@ -1,5 +1,8 @@
 #!/usr/bin/env groovy
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 properties(
   [buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '30', numToKeepStr: '50')), [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], pipelineTriggers([])]
 )
@@ -17,3 +20,17 @@ node {
   }
 
 }
+
+node {
+    JSONArray attachments = new JSONArray();
+    JSONObject attachment = new JSONObject();
+
+    attachment.put('text','I find your lack of faith disturbing!');
+    attachment.put('fallback','Hey, Vader seems to be mad at you.');
+    attachment.put('color','#ff0000');
+
+    attachments.add(attachment);
+    slackSend(color: '#00FF00', channel: '#general', attachments: attachments.toString())
+}
+
+
