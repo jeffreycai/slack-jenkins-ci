@@ -1,12 +1,10 @@
 #!/usr/bin/env groovy
 
-//import net.sf.json.JSONArray;
-//import net.sf.json.JSONObject;
-
 slackSend(
   message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
   channel: '#general',
-  tokenCredentialId: 'slack_jenkins_ci_integration_token'
+  tokenCredentialId: 'slack_jenkins_ci_integration_token',
+  color: 'good'
 )
 
 properties(
@@ -39,4 +37,34 @@ node {
     slackSend(color: '#00FF00', channel: '#general', message: 'yeah')
 }
 
+post {
+    def buildResult = currentBuild.currentResult
+    def color, message
+
+    switch (buildResult) {
+        case "SUCCESS":
+            color = "good"
+            message = "Build completed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            break
+        case "FAILURE":
+            color = "danger"
+            message = "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            break
+        case "UNSTABLE":
+            color = "warning"
+            message = "Build unstable - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            break
+        default:
+            color = "danger"
+            message = "Build status unclear - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            break
+    }
+
+    slackSend(
+      message: message,
+      channel: '#general',
+      tokenCredentialId: 'slack_jenkins_ci_integration_token',
+      color: color
+    )
+}
 
