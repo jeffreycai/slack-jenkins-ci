@@ -37,7 +37,6 @@ node {
     slackSend(color: '#00FF00', channel: '#general', message: 'yeah')
 }
 
-post {
     def buildResult = currentBuild.currentResult
     def color, message
 
@@ -66,5 +65,4 @@ post {
       tokenCredentialId: 'slack_jenkins_ci_integration_token',
       color: color
     )
-}
 
